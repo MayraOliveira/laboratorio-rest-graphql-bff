@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratório | REST, GraphQL e BFF</title>
+  <style>
+    :root {
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      color: #202b3a;
+      background: #f5f7fb;
+      --primary: #6355c7;
+      --border: #e2e6ee;
+      --muted: #637085;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.55; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible {
+      outline: 3px solid #a69bf1;
+      outline-offset: 3px;
+    }
+    main { max-width: 1050px; margin: auto; padding: 24px 16px 60px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(26px, 5vw, 36px); line-height: 1.2; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 15px; }
+    .hero {
+      background: linear-gradient(125deg,#18273e,#38346d);
+      color: white;
+      border-radius: 22px;
+      padding: 30px;
+      margin-bottom: 18px;
+    }
+    .hero p { color: #e1e4f7; max-width: 660px; margin-bottom: 0; }
+    .eyebrow {
+      color: #c4bbff;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+    .step {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .choices, .tabs, .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 15px 0;
+    }
+    .choice {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 13px;
+      background: #f5f6fa;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    input { accent-color: var(--primary); width: 17px; height: 17px; }
+    input:disabled { cursor: not-allowed; }
+    .choice:has(input:disabled) { opacity: .5; }
+    .tab, .button, .level {
+      border: 1px solid var(--border);
+      background: white;
+      color: #293448;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-weight: 650;
+    }
+    .tab.active, .level.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .button { background: #f5f6fa; }
+    .button:hover, .tab:hover:not(.active) { background: #ecebf8; }
+    .columns {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+    .mock-screen {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 17px;
+      background: #fafbfe;
+    }
+    .channel { display: flex; align-items: center; gap: 13px; }
+    .avatar {
+      background: #e64c47;
+      color: white;
+      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      flex-shrink: 0;
+    }
+    .channel strong { display: block; font-size: 17px; }
+    .playlist { border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px; }
+    .video { display: flex; gap: 12px; margin-top: 10px; align-items: center; }
+    .thumbnail {
+      width: 86px;
+      height: 53px;
+      background: linear-gradient(135deg,#273c68,#7360ab);
+      border-radius: 8px;
+      color: white;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .metrics { display: flex; gap: 12px; margin-top: 15px; }
+    .metric {
+      flex: 1;
+      background: #f4f5fa;
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 29px;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+    .diagram {
+      background: #142238;
+      border-radius: 15px;
+      padding: 20px 12px;
+      overflow-x: auto;
+      margin: 17px 0;
+    }
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-width: 295px;
+    }
+    .node {
+      background: #315a82;
+      color: white;
+      border-radius: 9px;
+      padding: 13px 9px;
+      min-width: 65px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .node:nth-of-type(2) { background: #355b61; }
+    .node:nth-of-type(3) { background: #664f90; }
+    .arrow { color: #bacce1; font-size: 20px; }
+    pre {
+      white-space: pre;
+      overflow: auto;
+      background: #111e30;
+      color: #e2f1fb;
+      border-radius: 12px;
+      padding: 17px;
+      font: 12px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace;
+      max-height: 310px;
+      tab-size: 2;
+    }
+    .tip {
+      background: #f1efff;
+      border-left: 4px solid #7764d7;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    .answer {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin: 9px 0;
+      cursor: pointer;
+    }
+    .answer:has(input:checked) {
+      border-color: var(--primary);
+      background: #f4f1ff;
+    }
+    .feedback { border-radius: 10px; padding: 14px; margin-top: 13px; }
+    .correct { background: #e8f7ef; color: #165e3e; }
+    .hint { background: #fff4dc; color: #735016; }
+    .hidden { display: none !important; }
+    fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+    legend { font-weight: 700; padding: 0; margin-bottom: 8px; }
+    footer { text-align: center; color: var(--muted); font-size: 12px; }
+    @media(max-width:700px) {
+      .columns { grid-template-columns: 1fr; }
+      .hero { padding: 23px; }
+      .panel { padding: 17px; }
+      .tab { flex: 1; padding: 10px 7px; font-size: 13px; }
+      .metric strong { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="eyebrow">Laboratório interativo • Desenvolvimento web</div>
+    <h1>De REST a GraphQL e BFF</h1>
+    <p>Descubra como diferentes arquiteturas entregam os dados
+    de que uma interface precisa. Experimente, compare os resultados
+    e tome suas próprias decisões.</p>
+  </header>
+
+  <section class="panel">
+    <div class="step">Etapa 1 · Explore o problema</div>
+    <h2>Quais dados sua tela precisa?</h2>
+    <p>Imagine que você está construindo a página de um canal de vídeos.
+    Escolha as informações que a interface deve apresentar.</p>
+
+    <fieldset class="choices">
+      <legend class="small">Personalize a interface</legend>
+      <label class="choice">
+        <input id="subscribers" type="checkbox" checked>
+        Inscritos
+      </label>
+      <label class="choice">
+        <input id="playlists" type="checkbox" checked>
+        Playlists e vídeos
+      </label>
+      <label class="choice">
+        <input id="views" type="checkbox">
+        Visualizações
+      </label>
+    </fieldset>
+
+    <div class="mock-screen">
+      <div class="channel">
+        <div class="avatar" aria-hidden="true">▶</div>
+        <div>
+          <strong>Canal Demo</strong>
+          <div id="subscriberPreview" class="muted small">12.000 inscritos</div>
+        </div>
+      </div>
+      <div id="playlistPreview" class="playlist">
+        <strong>Playlist: React</strong>
+        <div class="video">
+          <div class="thumbnail" aria-hidden="true">▶</div>
+          <div>
+            <strong class="small">Criando componentes</strong>
+            <div id="viewsPreview" class="muted small hidden">
+              850 visualizações
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="step">Etapa 2 · Investigue as alternativas</div>
+    <h2>Como buscar as informações?</h2>
+    <p>Experimente cada abordagem e observe as mudanças no fluxo
+    das requisições e na quantidade de informações recebidas.</p>
+
+    <div class="tabs" role="group" aria-label="Tipo de arquitetura">
+      <button class="tab active" data-mode="rest" aria-pressed="true">REST</button>
+      <button class="tab" data-mode="graphql" aria-pressed="false">GraphQL</button>
+      <button class="tab" data-mode="bff" aria-pressed="false">BFF + GraphQL</button>
+    </div>
+
+    <div class="diagram" role="img" aria-label="Diagrama da comunicação entre os componentes">
+      <div id="flow" class="flow"></div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <span class="muted small">Chamadas do navegador</span>
+        <strong id="requestCount">3</strong>
+      </div>
+      <div class="metric">
+        <span class="muted small">Campos extras*</span>
+        <strong id="extraCount">5</strong>
+      </div>
+    </div>
+
+    <div class="tip" id="explanation" aria-live="polite"></div>
+    <p class="small muted">
+      *Os números são ilustrativos e dependem do desenho da API.
+      As chamadas internas aos serviços não estão contabilizadas.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="step">Etapa 3 · Examine o código</div>
+    <h2>O que realmente trafega pela rede?</h2>
+    <p>Observe como a solicitação e a resposta mudam conforme
+    os dados selecionados e a arquitetura escolhida.</p>
+
+    <div class="columns">
+      <div>
+        <h3>Requisição</h3>
+        <pre id="requestCode" aria-label="Exemplo de requisição"></pre>
+        <button class="button" id="copyButton" type="button">
+          Copiar requisição
+        </button>
+      </div>
+      <div>
+        <h3>Resposta simulada</h3>
+        <pre id="responseCode" aria-label="Exemplo de resposta"></pre>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>Experimente:</strong> desmarque o número de inscritos
+      e compare REST com GraphQL. Depois, marque visualizações.
+      A API está devolvendo apenas o que a interface utiliza?
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="step">Etapa 4 · Aplique seus conhecimentos</div>
+    <h2>Uma decisão de arquitetura</h2>
+    <p>Imagine que um site e um aplicativo precisam mostrar os mesmos
+    vídeos, mas com informações e formatos diferentes.</p>
+
+    <fieldset>
+      <legend>Qual conceito permite criar um back-end dedicado às necessidades de cada interface?</legend>
+      <label class="answer">
+        <input type="radio" name="answer" value="rest"> REST
+      </label>
+      <label class="answer">
+        <input type="radio" name="answer" value="graphql"> GraphQL
+      </label>
+      <label class="answer">
+        <input type="radio" name="answer" value="bff"> BFF
+      </label>
+    </fieldset>
+
+    <div id="feedback" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="panel">
+    <div class="step">Aprofundamento opcional</div>
+    <h2>Os níveis de maturidade de Richardson</h2>
+    <p>Antes do GraphQL, conhecemos diferentes formas de organizar
+    uma API HTTP. Explore como elas evoluem.</p>
+
+    <button class="button" id="toggleLevels"
+      type="button" aria-expanded="false">
+      Explorar os quatro níveis ↓
+    </button>
+
+    <div id="levelsPanel" class="hidden">
+      <div class="actions" role="group" aria-label="Nível de maturidade">
+        <button class="level active" data-level="0" aria-pressed="true">Nível 0</button>
+        <button class="level" data-level="1" aria-pressed="false">Nível 1</button>
+        <button class="level" data-level="2" aria-pressed="false">Nível 2</button>
+        <button class="level" data-level="3" aria-pressed="false">Nível 3</button>
+      </div>
+      <h3 id="levelTitle"></h3>
+      <p id="levelText"></p>
+      <pre id="levelExample"></pre>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="button" id="resetButton" type="button">
+      ↻ Recomeçar atividade
+    </button>
+  </div>
+
+  <footer>
+    Atividade demonstrativa. Todas as requisições e respostas são simuladas.
+    Nenhuma informação é enviada a servidores externos.
+  </footer>
+</main>
+
+<script>
+  const $ = id => document.getElementById(id);
+
+  const state = {
+    mode: "rest",
+    subscribers: true,
+    playlists: true,
+    views: false
+  };
+
+  const data = {
+    name: "Canal Demo",
+    subscribers: 12000,
+    playlists: [{
+      name: "React",
+      videos: [{ title: "Criando componentes", views: 850 }]
+    }]
+  };
+
+  function selectedData() {
+    const channel = { name: data.name };
+    if (state.subscribers) channel.subscribers = data.subscribers;
+    if (state.playlists) {
+      channel.playlists = data.playlists.map(p => ({
+        name: p.name,
+        videos: p.videos.map(v => ({
+          title: v.title,
+          ...(state.views ? { views: v.views } : {})
+        }))
+      }));
+    }
+    return channel;
+  }
+
+  function selectedFields() {
+    return [
+      "name",
+      ...(state.subscribers ? ["subscribers"] : []),
+      ...(state.playlists
+        ? ["playlists.name", "playlists.videos.title"] : []),
+      ...(state.playlists && state.views
+        ? ["playlists.videos.views"] : [])
+    ];
+  }
+
+  function restEndpoints() {
+    return [
+      "GET /channels/canal-demo",
+      ...(state.playlists
+        ? [
+          "GET /channels/canal-demo/playlists",
+          "GET /playlists/42/videos"
+        ]
+        : [])
+    ];
+  }
+
+  function graphQLQuery() {
+    const lines = [
+      "query Canal {",
+      '  channel(username: "canal-demo") {',
+      "    name"
+    ];
+    if (state.subscribers) lines.push("    subscribers");
+    if (state.playlists) {
+      lines.push("    playlists {");
+      lines.push("      name");
+      lines.push("      videos {");
+      lines.push("        title");
+      if (state.views) lines.push("        views");
+      lines.push("      }");
+      lines.push("    }");
+    }
+    lines.push("  }", "}");
+    return lines.join("\n");
+  }
+
+  function getRequest() {
+    if (state.mode === "rest") return restEndpoints().join("\n\n");
+
+    if (state.mode === "graphql") {
+      return "POST /graphql\n\n" + graphQLQuery();
+    }
+
+    return "POST /bff/pagina-canal\n\n" +
+      JSON.stringify({
+        canal: "canal-demo",
+        campos: selectedFields()
+      }, null, 2);
+  }
+
+  function getResponse() {
+    if (state.mode === "graphql") {
+      return { data: { channel: selectedData() } };
+    }
+
+    if (state.mode === "bff") {
+      return { channel: selectedData() };
+    }
+
+    const responses = [{
+      endpoint: "GET /channels/canal-demo",
+      data: {
+        id: "canal-demo",
+        name: data.name,
+        subscribers: data.subscribers,
+        description: "Cursos e tutoriais",
+        banner: "/imagens/capa.png"
+      }
+    }];
+
+    if (state.playlists) {
+      responses.push({
+        endpoint: "GET /channels/canal-demo/playlists",
+        data: {
+          playlists: [{
+            id: 42,
+            name: "React",
+            category: "Programação"
+          }]
+        }
+      });
+      responses.push({
+        endpoint: "GET /playlists/42/videos",
+        data: {
+          videos: [{
+            title: "Criando componentes",
+            views: 850,
+            duration: "12:40"
+          }]
+        }
+      });
+    }
+    return responses;
+  }
+
+  const explanations = {
+    rest:
+      "Nesta API REST de exemplo, consultamos recursos por endpoints. " +
+      "Algumas respostas trazem campos não usados pela tela " +
+      "(overfetching). Para obter dados relacionados, precisamos " +
+      "de outras chamadas (underfetching na primeira resposta).",
+
+    graphql:
+      "O GraphQL permite solicitar exatamente os campos desejados " +
+      "e dados relacionados em uma consulta. Isso pode reduzir " +
+      "overfetching e chamadas do navegador. Mas o servidor ainda " +
+      "precisa buscar e processar as informações.",
+
+    bff:
+      "O BFF é um back-end dedicado à interface. Ele recebe uma " +
+      "requisição do navegador e prepara uma resposta adequada à " +
+      "tela. Neste exemplo, usa GraphQL internamente, mas também " +
+      "poderia consumir APIs REST."
+  };
+
+  function renderFlow() {
+    const nodes = state.mode === "bff"
+      ? ["Navegador", "BFF", "GraphQL", "Dados"]
+      : ["Navegador",
+         state.mode === "rest" ? "API REST" : "GraphQL",
+         "Dados"];
+
+    $("flow").innerHTML = nodes.map((name, i) =>
+      `${i ? '<span class="arrow" aria-hidden="true">→</span>' : ""}
+       <span class="node">${name}</span>`
+    ).join("");
+
+    const description = nodes.join(" → ");
+    $("flow").parentElement.setAttribute(
+      "aria-label", "Fluxo de dados: " + description
+    );
+  }
+
+  function render() {
+    if (!state.playlists) state.views = false;
+
+    $("subscribers").checked = state.subscribers;
+    $("playlists").checked = state.playlists;
+    $("views").checked = state.views;
+    $("views").disabled = !state.playlists;
+
+    $("subscriberPreview").classList.toggle(
+      "hidden", !state.subscribers
+    );
+    $("playlistPreview").classList.toggle(
+      "hidden", !state.playlists
+    );
+    $("viewsPreview").classList.toggle(
+      "hidden", !state.views
+    );
+
+    document.querySelectorAll("[data-mode]").forEach(button => {
+      const active = button.dataset.mode === state.mode;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active);
+    });
+
+    $("requestCount").textContent =
+      state.mode === "rest" ? restEndpoints().length : 1;
+
+    // Campos extras nesta implementação REST fictícia.
+    const extraCount = 2 + (!state.subscribers ? 1 : 0)
+      + (state.playlists ? 2 + (!state.views ? 1 : 0) : 0);
+
+    $("extraCount").textContent =
+      state.mode === "rest" ? extraCount : 0;
+
+    $("explanation").textContent = explanations[state.mode];
+    $("requestCode").textContent = getRequest();
+    $("responseCode").textContent =
+      JSON.stringify(getResponse(), null, 2);
+
+    renderFlow();
+  }
+
+  $("subscribers").addEventListener("change", e => {
+    state.subscribers = e.target.checked;
+    render();
+  });
+  $("playlists").addEventListener("change", e => {
+    state.playlists = e.target.checked;
+    render();
+  });
+  $("views").addEventListener("change", e => {
+    state.views = e.target.checked;
+    render();
+  });
+
+  document.querySelectorAll("[data-mode]").forEach(button => {
+    button.addEventListener("click", () => {
+      state.mode = button.dataset.mode;
+      render();
+    });
+  });
+
+  $("copyButton").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(getRequest());
+      $("copyButton").textContent = "✓ Copiado!";
+      setTimeout(() => {
+        $("copyButton").textContent = "Copiar requisição";
+      }, 1600);
+    } catch {
+      $("copyButton").textContent = "Selecione e copie o código";
+    }
+  });
+
+  document.querySelectorAll('input[name="answer"]').forEach(input => {
+    input.addEventListener("change", () => {
+      const feedback = $("feedback");
+
+      if (input.value === "bff") {
+        feedback.className = "feedback correct";
+        feedback.textContent =
+          "✓ Isso mesmo! O BFF adapta o back-end às necessidades " +
+          "de uma interface. O GraphQL pode ser usado por ele " +
+          "para consultar dados de maneira flexível.";
+      } else {
+        feedback.className = "feedback hint";
+        feedback.textContent =
+          "Pense na diferença entre um estilo arquitetural, " +
+          "uma linguagem de consulta e um back-end construído " +
+          "especialmente para uma interface. Tente novamente!";
+      }
+    });
+  });
+
+  const levels = [
+    {
+      title: "Nível 0 — Operações",
+      text: "A comunicação é orientada a operações, frequentemente " +
+        "concentradas em um endpoint. Ainda não há uma organização " +
+        "dos recursos por URLs próprias. O uso de XML não é obrigatório.",
+      example: "POST /api\n\n{ \"operation\": \"buscarVideo\", \"id\": 42 }"
+    },
+    {
+      title: "Nível 1 — Recursos",
+      text: "A API passa a identificar recursos, como canais, " +
+        "vídeos e playlists, utilizando URLs próprias.",
+      example: "/channels\n/videos\n/playlists"
+    },
+    {
+      title: "Nível 2 — Métodos HTTP",
+      text: "Os métodos HTTP são empregados conforme sua semântica: " +
+        "GET consulta, POST cria ou processa, PUT substitui e " +
+        "DELETE remove um recurso.",
+      example: "GET /videos/42\nDELETE /videos/42"
+    },
+    {
+      title: "Nível 3 — Hipermídia",
+      text: "As respostas incluem links ou controles que indicam " +
+        "ações e transições possíveis. Esse é o papel de HATEOAS.",
+      example: '{\n  "videos": [],\n  "links": {\n    "next": "/videos?page=2"\n  }\n}'
+    }
+  ];
+
+  function renderLevel(index) {
+    const item = levels[index];
+    $("levelTitle").textContent = item.title;
+    $("levelText").textContent = item.text;
+    $("levelExample").textContent = item.example;
+
+    document.querySelectorAll("[data-level]").forEach(button => {
+      const active = Number(button.dataset.level) === index;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active);
+    });
+  }
+
+  $("toggleLevels").addEventListener("click", () => {
+    const isHidden = $("levelsPanel").classList.toggle("hidden");
+    $("toggleLevels").setAttribute("aria-expanded", !isHidden);
+    $("toggleLevels").textContent = isHidden
+      ? "Explorar os quatro níveis ↓"
+      : "Ocultar os níveis ↑";
+  });
+
+  document.querySelectorAll("[data-level]").forEach(button => {
+    button.addEventListener("click", () => {
+      renderLevel(Number(button.dataset.level));
+    });
+  });
+
+  $("resetButton").addEventListener("click", () => {
+    Object.assign(state, {
+      mode: "rest",
+      subscribers: true,
+      playlists: true,
+      views: false
+    });
+    document.querySelectorAll('input[name="answer"]').forEach(input => {
+      input.checked = false;
+    });
+    $("feedback").className = "";
+    $("feedback").textContent = "";
+    renderLevel(0);
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  renderLevel(0);
+  render();
+</script>
+</body>
+</html>
