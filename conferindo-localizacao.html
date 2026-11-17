@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Conferindo a localização: descubra qual carreira Alura combina com seu momento profissional." />
+<title>Conferindo a localização · Alura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@200;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Roboto+Flex:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+ color-scheme:light;
+ --font-title:'Encode Sans','Segoe UI',sans-serif;
+ --font-sans:'Roboto Flex','Segoe UI',system-ui,sans-serif;
+ --font-mono:'JetBrains Mono',Consolas,monospace;
+ --brand-default:#052fd3; --brand-hover:#1f53e5; --brand-soft:#5f8bec;
+ --text-interactive:#5f8bec; --text-on-brand:#ecf2fd;
+ --surface-primary:#fdfdff; --surface-secondary:#f7f8ff; --surface-subtle:#e3e9ff; --surface-tertiary:#ebeffe;
+ --card-primary-default:#fdfdff; --card-primary-detail:#e3e9ff; --card-primary-hover:#eef1ff;
+ --text-title:#303237; --text-body:#46474e; --text-subtle:#62656f;
+ --border-primary:#b6c1dd; --border-subtle:#e3e9ff; --border-focus:#052fd3;
+ --button-secondary:#e3e9ff; --button-secondary-hover:#d2dcff;
+ --feedback-info:#7a9ff0; --feedback-success:#01cb29; --feedback-success-surface:#018e1d;
+ --radius-surface:4px; --radius-interactive:8px; --card-shadow:0 1px 2px rgba(48,50,55,.06);
+ --card-ring:0 0 0 2px var(--brand-hover),0 4px 12px -2px rgba(5,47,211,.25);
+}
+:root[data-theme="dark"] { color-scheme:dark;
+ --brand-hover:#4878ea; --brand-soft:#9ab7f3;
+ --surface-primary:#292b2e; --surface-secondary:#1b1c1e; --surface-subtle:#0c0d0e; --surface-tertiary:#131416;
+ --card-primary-default:#0c0d0e; --card-primary-detail:#292b2e; --card-primary-hover:#1b1c1e;
+ --text-title:#f4f5f6; --text-body:#b1b2b9; --text-subtle:#888d96;
+ --border-primary:#54565f; --border-subtle:#222326; --border-focus:#9ab7f3;
+ --button-secondary:#222326; --button-secondary-hover:#46474e;
+ --card-shadow:0 1px 2px rgba(0,0,0,.3); --card-ring:0 0 0 2px var(--brand-hover),0 4px 8px -2px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme:dark) { :root:not([data-theme="light"]) {
+ color-scheme:dark;
+ --brand-hover:#4878ea; --brand-soft:#9ab7f3;
+ --surface-primary:#292b2e; --surface-secondary:#1b1c1e; --surface-subtle:#0c0d0e; --surface-tertiary:#131416;
+ --card-primary-default:#0c0d0e; --card-primary-detail:#292b2e; --card-primary-hover:#1b1c1e;
+ --text-title:#f4f5f6; --text-body:#b1b2b9; --text-subtle:#888d96;
+ --border-primary:#54565f; --border-subtle:#222326; --border-focus:#9ab7f3;
+ --button-secondary:#222326; --button-secondary-hover:#46474e;
+ --card-shadow:0 1px 2px rgba(0,0,0,.3); --card-ring:0 0 0 2px var(--brand-hover),0 4px 8px -2px rgba(0,0,0,.35);
+}}
+* {box-sizing:border-box} html {scroll-behavior:smooth} body {margin:0;background:var(--surface-tertiary);color:var(--text-body);font:14px/1.6 var(--font-sans)}
+a {color:var(--text-interactive)} a:hover {text-decoration:underline} button {font:inherit} :focus-visible {outline:2px solid var(--border-focus);outline-offset:3px}
+[hidden] {display:none!important}
+.top {height:64px;max-width:1200px;padding:0 24px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.identity {display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-title);font-family:var(--font-title);font-size:17px}
+.identity-mark {height:28px;width:28px;border-radius:8px;background:var(--brand-default);color:#ecf2fd;display:grid;place-items:center;font-size:17px}
+.top-meta {font:11px var(--font-mono);color:var(--text-subtle);letter-spacing:.04em}
+.theme-btn {background:var(--button-secondary);border:1px solid transparent;color:var(--text-title);border-radius:var(--radius-interactive);padding:8px 12px;cursor:pointer}
+.theme-btn:hover {background:var(--button-secondary-hover)}
+.outer {background:var(--surface-secondary);max-width:1250px;margin:0 auto;border-radius:12px 12px 0 0;padding:32px clamp(18px,4vw,56px) 64px;min-height:calc(100vh - 64px)}
+.wrap {max-width:1080px;margin:auto}
+.hero {display:grid;grid-template-columns:minmax(0,1.45fr) minmax(240px,.8fr);gap:16px;margin-bottom:22px}
+.hero-copy,.hero-art {border-radius:var(--radius-surface);min-width:0;min-height:282px}
+.hero-copy {background:var(--card-primary-default);border:1px solid var(--border-primary);padding:clamp(24px,4vw,42px)}
+.eyebrow {color:var(--text-subtle);font:11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:14px}
+h1,h2,h3,h4 {font-family:var(--font-title);color:var(--text-title)}
+h1 {font-size:clamp(35px,4.2vw,54px);font-weight:200;line-height:1.08;letter-spacing:-.03em;margin:0 0 18px}
+.hero-copy p {font-size:16px;line-height:1.5;max-width:54ch;margin:0 0 20px}
+.hero-actions {display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary {display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 16px;border-radius:var(--radius-interactive);background:var(--brand-default);color:#ecf2fd;text-decoration:none;font-weight:600}
+.btn-primary:hover {background:var(--brand-hover);text-decoration:none}
+.hero-art {background:var(--brand-default);color:#ecf2fd;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;padding:26px}
+.hero-art svg {max-width:300px;width:100%;height:auto;opacity:.9}
+.hero-art span {position:absolute;left:22px;bottom:20px;background:#ffffff22;border:1px solid #ffffff33;padding:7px 12px;border-radius:999px;font:11px var(--font-mono);letter-spacing:.06em}
+.checkpoint {border:1px solid var(--border-primary);background:var(--card-primary-default);border-radius:var(--radius-surface);display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:26px;align-items:start;margin-bottom:38px}
+.checkpoint h2 {font-size:23px;font-weight:400;margin:0 0 8px}
+.checkpoint p {margin:0 0 8px}.check-fields {display:flex;flex-direction:column;gap:12px}
+.check-label {display:flex;gap:10px;align-items:start;color:var(--text-title);cursor:pointer;font-weight:500}.check-label input {accent-color:var(--brand-default);width:18px;height:18px;flex:none;margin-top:3px}
+.check-result {padding:11px 12px;background:var(--surface-subtle);color:var(--text-title);border-radius:var(--radius-surface);font-size:13px;min-height:62px}
+.section-title {font-size:clamp(27px,3.5vw,34px);font-weight:200;margin:0 0 6px}
+.intro {margin:0 0 16px;font-size:15px}
+.filters {display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filter {background:var(--surface-primary);color:var(--text-title);padding:9px 13px;border-radius:var(--radius-interactive);border:1px solid var(--border-primary);cursor:pointer;transition:background .15s,box-shadow .15s;font-size:13px}
+.filter:hover {background:var(--card-primary-hover)}
+.filter[aria-pressed="true"] {background:var(--brand-default);border-color:var(--brand-default);color:#ecf2fd}
+.summary {font:12px var(--font-mono);color:var(--text-subtle);margin:0 0 18px;min-height:20px}
+.path-section {margin-bottom:36px}
+.section-header {display:flex;align-items:start;gap:14px;border-bottom:1px solid var(--border-primary);padding-bottom:15px;margin-bottom:13px}
+.section-header > div {min-width:0;flex:1}.section-index {font:12px var(--font-mono);color:var(--text-interactive);padding-top:6px}
+.section-header h3 {font-size:21px;font-weight:400;line-height:1.32;margin:0 0 5px}
+.section-header p {margin:0;color:var(--text-subtle)}
+.count-tag {font:10px var(--font-mono);white-space:nowrap;border:1px solid var(--border-primary);border-radius:999px;color:var(--text-subtle);padding:5px 10px}
+.cards {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px}
+.career-card {display:flex;flex-direction:column;justify-content:space-between;background:var(--card-primary-default);border:1px solid var(--border-primary);border-radius:var(--radius-surface);box-shadow:var(--card-shadow);overflow:hidden;min-width:0;transition:box-shadow .2s}
+.career-card:hover {box-shadow:var(--card-ring)}.card-content {padding:22px 20px 8px}
+.card-caption {font:10px var(--font-mono);letter-spacing:.09em;color:var(--text-subtle)}
+h4 {font-size:20px;line-height:1.35;font-weight:400;margin:9px 0 12px}
+.card-p {font-size:13px;line-height:1.55;margin:0 0 12px}
+.card-p strong {color:var(--text-title);font-weight:600}
+.career-link {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:43px;margin:7px 12px 12px;padding:10px 12px;background:var(--card-primary-detail);color:var(--text-title);border-radius:var(--radius-interactive);font-size:13px;font-weight:600;text-decoration:none}
+.career-link:hover {background:var(--brand-default);color:#ecf2fd;text-decoration:none}
+.career-link span {font-size:19px;line-height:1}
+.footer {margin-top:30px;border-top:1px solid var(--border-primary);padding-top:22px;color:var(--text-subtle);font-size:13px}
+.footer strong {color:var(--text-title)}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.hero-art{min-height:175px}.hero-art svg{width:190px}.checkpoint{grid-template-columns:1fr;gap:16px}}
+@media(max-width:520px){.top{padding:0 12px}.top-meta{display:none}.outer{padding:18px 14px 48px;margin:0;border-radius:0}.section-header{gap:8px;flex-wrap:wrap}.count-tag{margin-left:23px}.hero-copy{padding:22px}.hero-copy p{font-size:14px}.hero-art{min-height:145px}.checkpoint{padding:18px}.cards{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:0s!important;animation-duration:0s!important}}
+</style>
+</head>
+<body>
+<header class="top"><a href="#topo" class="identity"><span class="identity-mark" aria-hidden="true">⌖</span> Alura <span class="top-meta">/ ORIENTAÇÃO DE APRENDIZAGEM</span></a><button id="themeButton" class="theme-btn" type="button" aria-label="Alternar entre os temas claro e escuro">◐ <span id="themeLabel">Alternar tema</span></button></header>
+<main class="outer" id="topo"><div class="wrap">
+<section class="hero" aria-labelledby="main-title">
+<div class="hero-copy"><span class="eyebrow">VOCÊ ESTÁ AQUI · AI-NATIVE SOFTWARE ENGINEERING</span><h1 id="main-title">Conferindo a<br />localização<span style="color:var(--text-subtle)">.</span></h1><p>Você chegou à carreira <strong>AI-Native Software Engineering</strong>. Ela é voltada a quem já programa bem e quer usar agentes de IA de forma estruturada e segura no desenvolvimento de software.</p><div class="hero-actions"><a class="btn-primary" href="#conferencia">Verificar meu momento ↓</a></div></div>
+<div class="hero-art" aria-hidden="true"><svg viewBox="0 0 300 275" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="130" r="105" fill="none" stroke="#d9e5ff" stroke-width="1" opacity=".45"/><circle cx="150" cy="130" r="79" fill="none" stroke="#d9e5ff" stroke-width="1.5" opacity=".55"/><circle cx="150" cy="130" r="52" fill="none" stroke="#d9e5ff" stroke-width="1" opacity=".55"/><path d="M150 7 V253 M27 130 H273" stroke="#d9e5ff" stroke-width="1" opacity=".4"/><path d="M128 153 177 97 158 158Z" fill="#e3e9ff"/><path d="M128 153 177 97 158 158Z" fill="#d6e2ff" opacity=".6"/><circle cx="150" cy="130" r="7" fill="#fff"/><circle cx="150" cy="130" r="14" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/><g fill="#e3e9ff" font-size="12" font-family="monospace"><text x="145" y="14">N</text><text x="146" y="270">S</text><text x="274" y="133">L</text><text x="11" y="133">O</text></g></svg><span>SEU PRÓXIMO CAMINHO COMEÇA AQUI</span></div>
+</section>
+<section class="checkpoint" id="conferencia" aria-labelledby="check-title"><div><span class="eyebrow">01 · PONTO DE PARTIDA</span><h2 id="check-title">Esta carreira combina com seu momento?</h2><p>Marque as afirmações que descrevem sua experiência atual. Não é um teste: serve para apoiar sua escolha.</p></div><div class="check-fields"><label class="check-label"><input id="checkCode" type="checkbox" /> Já programo bem e tenho autonomia no desenvolvimento.</label><label class="check-label"><input id="checkAgents" type="checkbox" /> Quero trabalhar com agentes de IA de forma estruturada e segura.</label><p class="check-result" id="checkResult" role="status" aria-live="polite">Se este não é o caminho que você procurava, veja abaixo outras carreiras que podem combinar mais com seu momento.</p></div></section>
+<section id="caminhos" aria-labelledby="paths-title"><span class="eyebrow">02 · MAPA DE POSSIBILIDADES</span><h2 class="section-title" id="paths-title">Qual caminho combina com você?</h2><p class="intro">Escolha um objetivo para ver as carreiras relacionadas ou selecione “Todas” para explorar as 14 recomendações.</p>
+<div class="filters" role="group" aria-label="Filtrar carreiras por objetivo"><button class="filter" type="button" data-filter="all" aria-pressed="true">Todas as opções</button>
+<button class="filter" type="button" data-filter="zero" aria-pressed="false">🌱 Programar do zero</button>
+<button class="filter" type="button" data-filter="trabalho" aria-pressed="false">💼 IA no trabalho</button>
+<button class="filter" type="button" data-filter="produtos" aria-pressed="false">🎨 Produtos digitais</button>
+<button class="filter" type="button" data-filter="engenharia" aria-pressed="false">🧠 Engenharia de IA</button>
+<button class="filter" type="button" data-filter="infra" aria-pressed="false">🛠️ Infra e segurança</button>
+<button class="filter" type="button" data-filter="lideranca" aria-pressed="false">🚀 Liderança e arquitetura</button>
+</div><p class="summary" id="filterSummary" role="status" aria-live="polite">Exibindo 14 carreiras em 6 caminhos</p>
+<section class="path-section" data-path="zero" id="rota-zero" aria-labelledby="title-zero">
+  <header class="section-header"><span class="section-index">01</span><div><h3 id="title-zero">🌱 Quero aprender a programar do zero (com IA junto)</h3><p>Para começar em desenvolvimento de software, com IA integrada à jornada.</p></div><span class="count-tag">1 carreira</span></header>
+  <div class="cards"><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Dev Full Stack do futuro: do zero com IA</h4>
+    <p class="card-p"><strong>Para quem:</strong> Quem quer começar do zero em desenvolvimento de software.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Fundamentos da web, JavaScript, React, Java, Spring Boot, APIs e práticas profissionais, com IA integrada em toda a jornada.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/carreira-dev-full-stack-zero-com-ia" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Dev Full Stack do futuro: do zero com IA (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article></div>
+</section>
+<section class="path-section" data-path="trabalho" id="rota-trabalho" aria-labelledby="title-trabalho">
+  <header class="section-header"><span class="section-index">02</span><div><h3 id="title-trabalho">💼 Quero usar IA no meu trabalho, sem ser desenvolvedor(a)</h3><p>Para aplicar IA em atividades profissionais sem precisar programar.</p></div><span class="count-tag">3 carreiras</span></header>
+  <div class="cards"><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>IA para negócios</h4>
+    <p class="card-p"><strong>Para quem:</strong> Profissionais de áreas corporativas que precisam aplicar IA no dia a dia, sem programar.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Usar IA para ganhar produtividade, analisar informações, automatizar processos e criar soluções.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/ia-para-negocios" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira IA para negócios (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>IA para automação de processos</h4>
+    <p class="card-p"><strong>Para quem:</strong> Profissionais de diferentes áreas que querem automatizar processos e integrar sistemas.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Usar IA, agentes inteligentes e plataformas low code para otimizar fluxos de trabalho.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/ia-automacao-de-processos" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira IA para automação de processos (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Especialista em IA</h4>
+    <p class="card-p"><strong>Para quem:</strong> Profissionais de várias áreas que querem se especializar em IA aplicada.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Trabalhar com agentes, automações, LLMs e fluxos de IA para criar soluções digitais e otimizar processos.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/especialista-em-ia" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Especialista em IA (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article></div>
+</section>
+<section class="path-section" data-path="produtos" id="rota-produtos" aria-labelledby="title-produtos">
+  <header class="section-header"><span class="section-index">03</span><div><h3 id="title-produtos">🎨 Quero criar produtos digitais</h3><p>Para trabalhar da ideia ao produto, incluindo design e prototipagem com IA.</p></div><span class="count-tag">2 carreiras</span></header>
+  <div class="cards"><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>AI Product Builder</h4>
+    
+    <p class="card-p"><strong>Você vai aprender:</strong> Ir da ideia ao produto funcional, com estratégia, prototipagem e validação usando IA, ganhando autonomia técnica.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/ai-product-builder" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira AI Product Builder (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>AI Product Design</h4>
+    
+    <p class="card-p"><strong>Você vai aprender:</strong> Integrar IA ao fluxo de design, com prototipagem, automação de tarefas repetitivas e análise de dados para decisões de produto.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/ai-product-design" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira AI Product Design (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article></div>
+</section>
+<section class="path-section" data-path="engenharia" id="rota-engenharia" aria-labelledby="title-engenharia">
+  <header class="section-header"><span class="section-index">04</span><div><h3 id="title-engenharia">🧠 Quero me aprofundar em IA como engenharia</h3><p>Para desenvolver e colocar soluções de inteligência artificial em produção.</p></div><span class="count-tag">2 carreiras</span></header>
+  <div class="cards"><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Engenharia de Agentes de IA</h4>
+    
+    <p class="card-p"><strong>Você vai aprender:</strong> Criar, implantar e monitorar soluções inteligentes de ponta a ponta, do conceito à produção em escala.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/engenharia-de-ia" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Engenharia de Agentes de IA (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Engenharia de Machine Learning</h4>
+    <p class="card-p"><strong>Para quem:</strong> Quem quer iniciar em ML Engineering, profissionais de dados ou software migrando para ML e cientistas de dados que querem chegar mais perto da produção.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Machine learning e MLOps em nível técnico avançado.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/engenharia-de-machine-learning" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Engenharia de Machine Learning (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article></div>
+</section>
+<section class="path-section" data-path="infra" id="rota-infra" aria-labelledby="title-infra">
+  <header class="section-header"><span class="section-index">05</span><div><h3 id="title-infra">🛠️ Gosto de infraestrutura, operação e segurança</h3><p>Para quem quer atuar com infraestrutura, automação, operações ou cibersegurança.</p></div><span class="count-tag">4 carreiras</span></header>
+  <div class="cards"><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>AI Agent Ops</h4>
+    <p class="card-p"><strong>Para quem:</strong> SREs, DevOps, Platform e Cloud Engineers, DevSecOps e gestores de operações/TI.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> AIOps, da IA como copiloto em infraestrutura a agentes autônomos, self-healing, observabilidade inteligente, DevSecOps e FinOps.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/ai-agent-ops" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira AI Agent Ops (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Engenharia DevOps</h4>
+    <p class="card-p"><strong>Para quem:</strong> Devs que querem expandir para infraestrutura e automação, sysadmins e analistas de infraestrutura.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> CI/CD, Docker, Kubernetes, Terraform, monitoramento e automação.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/devops-engineering" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Engenharia DevOps (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>AppSec: Desenvolvimento Seguro de Aplicações</h4>
+    <p class="card-p"><strong>Para quem:</strong> Devs que querem aprender ou aprofundar segurança de aplicações.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Proteger aplicações web, APIs e mobile com DevSecOps, threat modeling e práticas seguras.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/appsec" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira AppSec: Desenvolvimento Seguro de Aplicações (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Pentester</h4>
+    <p class="card-p"><strong>Para quem:</strong> Quem quer entrar em segurança ofensiva sem experiência prévia e profissionais de TI que querem migrar para pentest.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Testar a segurança de sistemas com método, ética e autorização, em aplicações web, APIs, redes e Active Directory.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/pentester" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Pentester (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article></div>
+</section>
+<section class="path-section" data-path="lideranca" id="rota-lideranca" aria-labelledby="title-lideranca">
+  <header class="section-header"><span class="section-index">06</span><div><h3 id="title-lideranca">🚀 Já sou dev e quero crescer para liderança ou arquitetura</h3><p>Para quem já desenvolve software e quer avançar para decisões técnicas e liderança.</p></div><span class="count-tag">2 carreiras</span></header>
+  <div class="cards"><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Tech Lead na Era da IA</h4>
+    <p class="card-p"><strong>Para quem:</strong> Devs experientes que querem se tornar Tech Lead.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Liderar times híbridos de pessoas e agentes de IA, tomar decisões técnicas e gerar impacto no negócio.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/techlead" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Tech Lead na Era da IA (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article><article class="career-card">
+  <div class="card-content">
+    <span class="card-caption">CARREIRA ALURA</span>
+    <h4>Arquitetura de Soluções com IA</h4>
+    <p class="card-p"><strong>Para quem:</strong> Devs back-end mais experientes que querem evoluir para arquitetura.</p>
+    <p class="card-p"><strong>Você vai aprender:</strong> Criar soluções escaláveis, seguras e estratégicas, com IA como aliada.</p>
+  </div>
+  <a class="career-link" href="https://www.alura.com.br/carreiras/arquitetura-de-solucoes-com-ia" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a carreira Arquitetura de Soluções com IA (abre em nova aba)">Conhecer a carreira <span aria-hidden="true">↗</span></a>
+</article></div>
+</section>
+</section>
+<footer class="footer"><p><strong>Ainda não encontrou uma opção?</strong> Consulte o catálogo completo da Alura ou entre em contato com o time de suporte para receber orientação.</p><p>Bons estudos! 💙</p></footer>
+</div></main>
+<script>
+(function(){
+ const root=document.documentElement;
+ const themeBtn=document.getElementById('themeButton');
+ const themeLabel=document.getElementById('themeLabel');
+ // Respeita a preferência do sistema; alternância manual não exige cookies ou armazenamento.
+ let currentTheme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+ root.dataset.theme=currentTheme;
+ function updateTheme(){themeLabel.textContent=currentTheme==='dark'?'Tema escuro':'Tema claro';}
+ updateTheme();
+ themeBtn.addEventListener('click',()=>{currentTheme=currentTheme==='dark'?'light':'dark';root.dataset.theme=currentTheme;updateTheme();});
+ const checkCode=document.getElementById('checkCode');
+ const checkAgents=document.getElementById('checkAgents');
+ const checkResult=document.getElementById('checkResult');
+ function updateCheck(){
+   if(checkCode.checked && checkAgents.checked) checkResult.textContent='Estas afirmações indicam que a carreira AI-Native Software Engineering pode fazer sentido para você. Continue a explorar a proposta da carreira.';
+   else if(checkCode.checked || checkAgents.checked) checkResult.textContent='Você se identifica com parte do perfil. Compare seus objetivos com as carreiras abaixo antes de decidir.';
+   else checkResult.textContent='Se este não é o caminho que você procurava, veja abaixo outras carreiras que podem combinar mais com seu momento.';
+ }
+ [checkCode,checkAgents].forEach(el=>el.addEventListener('change',updateCheck));
+ const filterButtons=[...document.querySelectorAll('[data-filter]')];
+ const pathSections=[...document.querySelectorAll('.path-section')];
+ const summary=document.getElementById('filterSummary');
+ filterButtons.forEach(button=>button.addEventListener('click',()=>{
+   const filter=button.dataset.filter;
+   filterButtons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+   let count=0,groups=0;
+   pathSections.forEach(section=>{
+     const show=filter==='all'||section.dataset.path===filter;
+     section.hidden=!show;
+     if(show){count+=section.querySelectorAll('.career-card').length;groups++;}
+   });
+   summary.textContent='Exibindo '+count+' '+(count===1?'carreira':'carreiras')+' em '+groups+' '+(groups===1?'caminho':'caminhos');
+ }));
+})();
+</script>
+</body></html>
